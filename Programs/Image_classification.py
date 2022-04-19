@@ -9,7 +9,7 @@ from tensorflow.keras.models import Sequential
 import pathlib
 from numbers_extraction import id_numbers_locate
 
-data_dir = pathlib.Path('trainer')
+data_dir = pathlib.Path('../trainer')
 
 batch_size = 32
 img_height = 180

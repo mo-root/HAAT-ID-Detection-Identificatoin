@@ -24,7 +24,7 @@ CWD_PATH = os.getcwd()
 PATH_TO_CKPT = os.path.join(CWD_PATH,MODEL_NAME,'frozen_inference_graph.pb')
 
 # Path to label map file
-PATH_TO_LABELS = os.path.join(CWD_PATH, 'data', 'labelmap.pbtxt')
+PATH_TO_LABELS = os.path.join(CWD_PATH, '../data', 'labelmap.pbtxt')
 
 # Number of classes the object detector can identify
 NUM_CLASSES = 1
