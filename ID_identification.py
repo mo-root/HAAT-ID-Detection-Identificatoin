@@ -1,11 +1,12 @@
 # Import packages
 from read_from_image import extract_numbers
-from Image_classification import card_classification
+from Image_classification import chose_method
 from utils import label_map_util, visualization_utils as vis_util
 import tensorflow as tf
 import cv2
 import os
 import numpy as np
+from numbers_extraction import id_numbers_locate
 
 # The model is injected as soon as the program starts running
 # then it doesn't do the activity more,
@@ -18,7 +19,7 @@ CWD_PATH = os.getcwd()
 MODEL_NAME = 'model'
 PATH_TO_CKPT = os.path.join(CWD_PATH, MODEL_NAME, 'frozen_inference_graph.pb')
 # Path to label map file.
-PATH_TO_LABELS = os.path.join(CWD_PATH, '../data', 'labelmap.pbtxt')
+PATH_TO_LABELS = os.path.join(CWD_PATH, 'data', 'labelmap.pbtxt')
 # Number of classes the object detector can identify.
 # Meaning how many objects to identify
 NUM_CLASSES = 1
@@ -49,13 +50,15 @@ detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
 num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 
 
-def id_identification(path_to_id):
+def id_identification(path_to_id, method):
     """
     This function checks, according to
     an open sourced and trained AI
     if the given photo contains an ID card
     and measures the percentage of this being an ID card
     Args:
+        method(str): is the type of identification card the user chose.
+        e.g. passport, biometric israeli ID, non-biometric, driving license
         path_to_id(str): String containing the path file to the image
 
     Returns: if the image contains an ID card it takes us to the
@@ -107,7 +110,7 @@ def id_identification(path_to_id):
     if percent > 0.099999:
         # if the identification is more than 5 9s
         # this is the ideal number for making sure
-        card_classification(path_to_id)
+        chose_method(path_to_id, method)
     else:
         # print("the image does not contain a real ID")
         return 'please take another pic'

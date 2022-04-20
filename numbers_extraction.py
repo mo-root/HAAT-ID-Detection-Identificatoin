@@ -1,15 +1,20 @@
 from datetime import datetime
 import os
 import pytesseract
-from Image_classification import *
+# from Image_classification import *
+import numpy as np
 from read_from_image import extract_numbers
 from read_from_image import read_from_image
 import cv2
 
 # the model
+prototxtPath = os.path.join(os.getcwd(), 'saved_model', 'deploy.prototxt.txt')
+weightsPath = os.path.join(os.getcwd(), 'saved_model', 'res10_300x300_ssd_iter_140000.caffemodel')
+
 net = cv2.dnn.readNetFromCaffe(
-    './saved_model/ deploy.prototxt.txt',
-    './saved_model/res10_300x300_ssd_iter_140000.caffemodel')
+    r'C:\Users\Student\PycharmProjects\HAAT-ID-Detection-Identificatoin\saved_model\deploy.prototxt.txt',
+    r'C:\Users\Student\PycharmProjects\HAAT-ID-Detection-Identificatoin\saved_model\res10_300x300_ssd_iter_140000'
+    r'.caffemodel')
 
 
 def id_numbers_locate(path_to_image, coordination):
@@ -45,7 +50,7 @@ def id_numbers_locate(path_to_image, coordination):
     original_image = original_image[
                      startY: int(endY * 1.5),
                      int(0.9 * startX):int(endX * 1.1)]
-    (h, w) = original_image.size
+    (h, w) = original_image.shape[:2]
     r = 480 / float(h)
     dim = (int(w * r), 480)
     original_image = cv2.resize(original_image, dim)
